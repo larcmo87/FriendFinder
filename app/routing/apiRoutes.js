@@ -7,21 +7,6 @@ const fs = require("fs");
 var app = express();
 
 
-function freindCompare(data){
-  var friendData = JSON.parse(data);
-
-  var retFriendData = "";
-
-     for(var fd in friendData){
-
-         console.log("friendObj name = " + friendData[fd]);
-
-         retFriendData += friendData[fd].name;
-     }  
-     return retFriendData;
-
-}
-
 //FUNCTION TO READ THE JSON DATA
 function readFromFile(cb){
   //READ THE friends.json DATA
@@ -53,86 +38,88 @@ apiRouter.get("/api/friends", function(req, res) {
 });
 
 apiRouter.post("/api/friends", function(req, res) {
-  var newFriendArray = [];
-  var fileJSONData;
-  // newFriend.name = req.body.name;
-  // newFriend.photo = req.body.photo;
-  // newFriend.scores = req.body.scores;
+  var newFriendArray = [];      //Array to hold friend data for writing to file and friend compare
+  // var fileJSONData;
+  var totalDifference = 0;      //Var used in friend compare logic
+  var surveyReturnValue = 0;    //Var used in friend compare logic
+  var surveyFriendToReturn = 0; //Var used in friend compare logic
 
-  console.log("req.body.name" + req.body.name);
-
+  //New Freind Object
   var newFriend = {
         name : "",
         photo : "",
         scores : []
   }    
 
-
-      
-
+  //Function that reads friends for existing friends.json file and adds new friend entry.
+  //Funtcion also does the friend compare logic 
    readFromFile(function(data){
-    //RETURN THE DATA TO THE GET REQEUST
-    
-
-      console.log("fileJSONData length = " + data.length);
-
-   /* newFriend.name = req.body.name;
-    newFriend.photo = req.body.photo;
-    newFriend.scores = req.body.scores;  
-
-    newFriendArray.push(newFriend);*/
-
+      
+      //Loop through the returned data from the friends.json file and append friend
+      //data to the newFriendArray. The newFriendArray will be used for the friend
+      //compare logic and to rewrite the friends.json file with new and existing 
+      //friends data
       for(var fd in data){
-        newFriend.name = data[fd].name;
+        newFriend.name = data[fd].name;        
         newFriend.photo = data[fd].photo;
         newFriend.scores = data[fd].scores;
-         console.log("Name = " + newFriend.scores);
-        newFriendArray.push(newFriend);
+         
+        //Stringify the newFriend object data
+        var parseNewFriend = JSON.stringify(newFriend,null,2);
+
+        //Push to the newFriendArray
+        newFriendArray.push( JSON.parse(parseNewFriend));
+        
       } 
 
+      /*Friend Compare logic*/
+      for(var fad = 0; fad < newFriendArray.length; fad++){
+        
+        totalDifference = 0;  //Set the total difference to 0 on each interation        
 
+        //Loop through the newFriendArray scores array
+        for(var i = 0; i < newFriendArray[fad].scores.length; i++){
+            
+            //Subtract the newFriendsArray score from the req body score 
+            //Return the absolute value
+            totalDifference += Math.abs(newFriendArray[fad].scores[i] - req.body.scores[i]);
+                                        
+        }
+         
+        //If surveyReturnValue is 0 then set its value to the totalDifference value
+        //Else if totalDifference is < or = surveyReturnValue update the surveyReturnValue
+        //value with the new totalDifference value and set the surveyFriendToReturn to the 
+        //array newFriendArray count. This will be the friend that has the least difference 
+        //in survey points
+        if(surveyReturnValue === 0){
+          surveyReturnValue = totalDifference;
+        }else if(totalDifference <= surveyReturnValue){
+          surveyReturnValue = totalDifference;          
+          surveyFriendToReturn = fad;
+        }
 
-       newFriend.name = req.body.name;
+      }
+
+    //Capture the newly entered friend data into the newFrien object
+    newFriend.name = req.body.name;
     newFriend.photo = req.body.photo;
     newFriend.scores = req.body.scores;  
 
+    //Push the newFriend object data to the newFriendArray
+    //This will add the newly added friend to the exising 
+    //friends in the freinds.json file.
     newFriendArray.push(newFriend);
 
-    console.log(newFriendArray);
+
+
+    // Rewrite the freinds data to the friends.json file
      fs.writeFile(__dirname + "/../data/friends.json", JSON.stringify(newFriendArray,null,2) ,'utf-8')
+
+
+     //Return the best friend match
+     res.json(newFriendArray[surveyFriendToReturn]);
   });
 
-   
-
-/*var addNewFriend =(newFriendArray);*/
- 
-  console.log("addNewFriend = " + JSON.stringify(newFriendArray));
-
- // fs.writeFile(__dirname + "/../data/friends.json", JSON.parse(newFriendArray) ,'utf-8')
-
-        
-    
-  
-
-
-  
-
-  // var friendsObjs = fs.readFileSync(__dirname + "/../data/friends.js","utf-8")
-  
- /* console.log ("newFriend = " + JSON.stringify(newFriend, null, 2));
-  var newFriendInfoObj = JSON.stringify(newFriend, null, 2) + "\n";
-  // newFriendArray.push(JSON.stringify(req.body, null, 2))
-  // var friendJSON = JSON.stringify(newFriend);
-  	// fs.writeFileSync(__dirname + "/../data/friends.json", JSON.stringify(req.body, null, 2) , 'utf-8');
-  fs.appendFile(__dirname + "/../data/friends.json",newFriendInfoObj,'utf-8',function (err) {
-  	if (err) throw err;
-
-	  console.log('Saved!');
-  });
-*/
-  // characters.push(newcharacter);
-
-  // res.json(newcharacter);
 });
 
 module.exports = apiRouter;

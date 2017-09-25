@@ -15,11 +15,12 @@
 	<!-- Chosen -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
-
+		<!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 	<div class="container">
-
+		
 		<h2>Survey Questions</h2>
 		<hr>
 
@@ -33,7 +34,7 @@
 		<hr>
 
 		<h3><strong>Question 1</strong></h3>
-		<h4>Your mind is always buzzing with unexplored ideas and plans.</h4>
+		<h4>How likey are you to have a complete set of salad bowls and they all say Kool Whip written on the side?</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q1"><!-- style="display: none; -->
 	 		<option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -44,7 +45,7 @@
       	</select>
       
 		<h3><strong>Question 2</strong></h3>
-		<h4>Generally speaking, you rely more on your experience than your imagination.</h4>
+		<h4>You'd rather spend more money on your pickup truck than on your education?</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q2" >
 	 		<option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -55,7 +56,7 @@
       	</select>
       
 		<h3><strong>Question 3</strong></h3>
-		<h4>You find it easy to stay relaxed and focused even when there is some pressure.</h4>
+		<h4>How likey are you to own a home with wheels on it and several cars without?</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q3">
 	 		<option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -66,7 +67,7 @@
       	</select>
       
 		<h3><strong>Question 4</strong></h3>
-		<h4>You rarely do something just out of sheer curiosity.</h4>
+		<h4>Your neighbors think you're a detective because a cop always brings you home?</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q4">
 	 		<option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -78,7 +79,7 @@
  	
 
 		<h3><strong>Question 5</strong></h3>
-		<h4>People can rarely upset you.</h4>
+		<h4>How likey are you to have a working television that sits on top of your non-working television?</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q5">
 	 		<option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -89,7 +90,7 @@
       	</select>
       
 		<h3><strong>Question 6</strong></h3>
-		<h4>It is often difficult for you to relate to other people’s feelings.</h4>
+		<h4>Being called a redneck or hillbilly upsets you.</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q6">
 	 		<option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -101,7 +102,7 @@
       
 
 		<h3><strong>Question 7</strong></h3>
-		<h4>In a discussion, truth should be more important than people’s sensitivities.</h4>
+		<h4>You are likey to shower at least twice a week.</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q7">
 	 		<option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -112,7 +113,7 @@
       	</select>
       	
 		<h3><strong>Question 8</strong></h3>
-		<h4>You rarely get carried away by fantasies and ideas.</h4>
+		<h4>How likey are you have a picture of Jeff Gordan hanging in the living room?</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q8">
 	 		<option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -123,7 +124,7 @@
       	</select>
      
 		<h3><strong>Question 9</strong></h3>
-		<h4>You think that everyone’s views should be respected regardless of whether they are supported by facts or not.</h4>
+		<h4>You'd rather drink out of a Dixie cup than a drinking glass.</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q9">
 	 		<option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -134,7 +135,7 @@
       	</select>
      
 		<h3><strong>Question 10</strong></h3>
-		<h4>You feel more energetic after spending time with a group of people.</h4>
+		<h4>You rarely do something just out of sheer stupidity.</h4>
 	 	<select data-placeholder="" class="chosen-select" id="q10">
 	 		<option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -150,10 +151,10 @@
 		<!-- Submit Button -->
 		<button type="submit" class="btn btn-primary btn-lg btn-block" id="submit"><i class="fa fa-check-circle" aria-hidden="true"></i>
  Submit</button>
-
+		
 		<hr>
 	    <footer class="footer">
-	      <div class="container">
+	      <div class="footer-container">
 		        <p><a href="/api/friends">API Friends List</a> | <a href="https://github.com/afhaque/friendfinder">GitHub Repo</a></p>
 	      </div>
 	    </footer>
@@ -170,7 +171,7 @@
 	      </div>
 	      <div class="modal-body">
 	        <h2 id="matchName">Jimmy Johnson</h2>
-	        <img id="matchImg" src="Https://Test" alt="">
+	        <img id="matchImg" src="Https://Test" alt="" style="width:400px;height:400px;">
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -226,6 +227,7 @@
 	    	// Grab the URL of the website
 	    	var currentURL = window.location.origin;
 
+	    	var postReturned = false;
 	    	// AJAX post the data to the friends API. 
 	    	$.post(currentURL + "/api/friends", userData)
 	    		.done(function(data){
@@ -237,6 +239,10 @@
 			    	// Show the modal with the best match 
 			    	$("#resultsModal").modal('toggle');
 
+			    	$('#resultsModal').on('hidden.bs.modal', function (e) {
+					  	window.location.href = "/";// do something...
+					})
+
 		    	});
 		}
 		else
@@ -244,6 +250,7 @@
 			alert("Please fill out all fields before submitting!");
 		}
     	
+
     	return false;
     });
 

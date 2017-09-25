@@ -1,0 +1,43 @@
+body{
+		
+  background: url(../images/reb1.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  margin: auto;
+  margin-left: 20px;
+    
+ }
+
+.container{
+	background-color: #051C4E;
+	color:white;
+}
+ .jumbotron{
+ 	color: white;
+ 	background-color: #051C4E;
+ }
+.footer {
+ 	color: white;
+ 	font-size: 20px;
+ 	
+ }
+ .footer a{
+ 	color: white;
+ 	font-size: 20px;
+ 	
+ }
+.survey-form{
+	background-color: #051C4E;
+	
+}
+ #survey-btn{
+ 	background-color: red;
+ 	/* background-image:url(../images/reb1.jpg);
+ 	background-repeat: no-repeat;
+ 	background-position: center;
+ 	background-size: 160px; */
+ 	color:white;
+ }
+
